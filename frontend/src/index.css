@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: linear-gradient(135deg, #0a1628 0%, #0d1b2a 50%, #0f1f2f 100%);
+    color: #e8edf5;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  .container-custom {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-custom {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-custom {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #00d4ff, #0099cc);
+    color: #0a1628;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    display: inline-block;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+    box-shadow: 0 4px 14px rgba(0, 212, 255, 0.3);
+  }
+
+  .btn-primary:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 212, 255, 0.5);
+  }
+
+  .section-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-title {
+      font-size: 2.25rem;
+    }
+  }
+
+  .section-title span {
+    color: #00d4ff;
+    border-bottom: 4px solid #00d4ff;
+    padding-bottom: 0.5rem;
+  }
+
+  .flip-card {
+    width: 100%;
+    height: 320px;
+    cursor: pointer;
+    perspective: 1000px;
+  }
+
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition-duration: 500ms;
+    border-radius: 1rem;
+    transform-style: preserve-3d;
+  }
+
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    backface-visibility: hidden;
+  }
+
+  .flip-card-front {
+    background: rgba(15, 30, 45, 0.6);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+  }
+
+  .flip-card-back {
+    background: linear-gradient(135deg, #0d1b2a, #0a1628);
+    border: 1px solid #00d4ff;
+    transform: rotateY(180deg);
+  }
+
+  .card {
+    background: rgba(15, 30, 45, 0.6);
+    border-radius: 1rem;
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    padding: 2rem 1.5rem;
+    transition: all 0.3s;
+  }
+
+  .card:hover {
+    border-color: rgba(0, 212, 255, 0.3);
+    transform: translateY(-5px);
+  }
+}
+
+@layer utilities {
+  .reveal {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  }
+  
+  .reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .animate-spin {
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
