@@ -35,22 +35,51 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
 });
 
+// Public Settings (no auth required for frontend)
+Route::get('/hero', [AdminController::class, 'getHeroSettings']);
+Route::get('/process', [AdminController::class, 'getProcessSettings']);
+Route::get('/why-choose-us', [AdminController::class, 'getWhyChooseUs']);
+Route::get('/about', [AdminController::class, 'getAboutSettings']);
+Route::get('/footer', [AdminController::class, 'getFooterSettings']);  // 🔥 ADD THIS
+
 // ========== ADMIN ROUTES (Protected + Admin Middleware) ==========
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     // Dashboard
     Route::get('/dashboard', [AdminController::class, 'dashboard']);
+    
+    // Hero Settings (Admin)
+    Route::get('/hero', [AdminController::class, 'getHeroSettings']);
+    Route::put('/hero/{id}', [AdminController::class, 'updateHeroSettings']);
+    
+    // Process Settings (Admin)
+    Route::get('/process', [AdminController::class, 'getProcessSettings']);
+    Route::put('/process/{id}', [AdminController::class, 'updateProcessSettings']);
+    
+    // Why Choose Us (Admin)
+    Route::get('/why-choose-us', [AdminController::class, 'getWhyChooseUs']);
+    Route::put('/why-choose-us/{id}', [AdminController::class, 'updateWhyChooseUs']);
+    
+    // About Settings (Admin)
+    Route::get('/about', [AdminController::class, 'getAboutSettings']);
+    Route::put('/about/{id}', [AdminController::class, 'updateAboutSettings']);
+    
+    // 🔥 Footer Settings (Admin)
+    Route::get('/footer', [AdminController::class, 'getFooterSettings']);
+    Route::put('/footer/{id}', [AdminController::class, 'updateFooterSettings']);
     
     // Contacts
     Route::get('/contacts', [AdminController::class, 'getContacts']);
     Route::put('/contacts/{id}', [AdminController::class, 'updateContact']);
     Route::delete('/contacts/{id}', [AdminController::class, 'deleteContact']);
     Route::post('/contacts/{id}/reply', [AdminController::class, 'replyContact']);
+    Route::post('/contacts/{id}/send-email', [AdminController::class, 'sendContactEmail']);
     
     // Quotes
     Route::get('/quotes', [AdminController::class, 'getQuotes']);
     Route::put('/quotes/{id}', [AdminController::class, 'updateQuote']);
     Route::delete('/quotes/{id}', [AdminController::class, 'deleteQuote']);
     Route::post('/quotes/{id}/reply', [AdminController::class, 'replyQuote']);
+    Route::post('/quotes/{id}/send-email', [AdminController::class, 'sendQuoteEmail']);
     
     // Services
     Route::get('/services', [AdminController::class, 'getServices']);

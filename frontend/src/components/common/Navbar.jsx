@@ -59,13 +59,10 @@ const Navbar = () => {
                     <div className="hidden md:flex items-center space-x-3 lg:space-x-4 shrink-0">
                         {user ? (
                             <>
-                                <span className="text-cyan-500 text-sm">Hi, {user.name}</span>
-                                <button onClick={handleLogout} className="bg-red-600/80 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-all text-sm">
-                                    Logout
-                                </button>
+                                
                             </>
                         ) : (
-                            <Link to="/login" className="text-gray-300 hover:text-cyan-500 font-semibold transition-colors text-sm">Login</Link>
+                            <Link to="/login" className="text-gray-300 hover:text-cyan-500 font-semibold transition-colors text-sm"></Link>
                         )}
                         <Link to="/contact" className="btn-primary text-sm py-2 px-5">Free Quote →</Link>
                     </div>
@@ -85,11 +82,10 @@ const Navbar = () => {
                     ))}
                     {user ? (
                         <>
-                            <span className="block py-3 text-cyan-500">Hi, {user.name}</span>
-                            <button onClick={handleLogout} className="w-full bg-red-600/80 hover:bg-red-600 text-white py-2 rounded-full">Logout</button>
+                           
                         </>
                     ) : (
-                        <Link to="/login" className="block py-3 text-cyan-500" onClick={() => setIsOpen(false)}>Login</Link>
+                        <Link to="/login" className="block py-3 text-cyan-500" onClick={() => setIsOpen(false)}></Link>
                     )}
                     <Link to="/contact" className="block mt-3 btn-primary text-center" onClick={() => setIsOpen(false)}>Free Quote →</Link>
                 </div>

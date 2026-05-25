@@ -17,42 +17,96 @@ const Login = () => {
         setError('');
         
         try {
+            let response;
             if (isLogin) {
-                await login({ email: formData.email, password: formData.password });
+                response = await login({ email: formData.email, password: formData.password });
+                console.log('Login response:', response);
             } else {
                 if (formData.password !== formData.password_confirmation) {
                     setError('Passwords do not match');
                     setLoading(false);
                     return;
                 }
-                await register({ name: formData.name, email: formData.email, password: formData.password, password_confirmation: formData.password_confirmation });
+                response = await register({ 
+                    name: formData.name, 
+                    email: formData.email, 
+                    password: formData.password, 
+                    password_confirmation: formData.password_confirmation 
+                });
+                console.log('Register response:', response);
             }
-            navigate('/');
+            
+            console.log('Redirecting to /admin...');
+            navigate('/admin');
+            
         } catch (err) {
-            setError(err.response?.data?.message || 'Something went wrong');
+            console.error('Login/Register error:', err);
+            setError(err.response?.data?.message || err.message || 'Something went wrong');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center py-20">
-            <div className="bg-gradient-to-br from-navy-800 to-navy-900 rounded-3xl p-8 max-w-md w-full border border-cyan-500/20 reveal">
+        <div className="min-h-screen flex items-center justify-center py-20 bg-gray-100">
+            <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl">
                 <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold">{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
-                    <p className="text-gray-400 mt-2">{isLogin ? 'Login to your account' : 'Register to get started'}</p>
+                    <h2 className="text-3xl font-bold text-gray-800">{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
+                    <p className="text-gray-500 mt-2">{isLogin ? 'Login to your account' : 'Register to get started'}</p>
                 </div>
 
-                {error && <div className="bg-red-500/20 border border-red-500 rounded-lg p-3 mb-6 text-red-400 text-center">{error}</div>}
+                {error && (
+                    <div className="bg-red-100 border border-red-400 rounded-lg p-3 mb-6 text-red-700 text-center">
+                        {error}
+                    </div>
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    {!isLogin && <input type="text" placeholder="Full Name" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} className="w-full p-4 bg-navy-700/50 rounded-xl border border-cyan-500/20 focus:border-cyan-500 outline-none text-white" required />}
-                    <input type="email" placeholder="Email Address" value={formData.email} onChange={e => setFormData({...formData, email: e.target.value})} className="w-full p-4 bg-navy-700/50 rounded-xl border border-cyan-500/20 focus:border-cyan-500 outline-none text-white" required />
-                    <input type="password" placeholder="Password" value={formData.password} onChange={e => setFormData({...formData, password: e.target.value})} className="w-full p-4 bg-navy-700/50 rounded-xl border border-cyan-500/20 focus:border-cyan-500 outline-none text-white" required />
-                    {!isLogin && <input type="password" placeholder="Confirm Password" value={formData.password_confirmation} onChange={e => setFormData({...formData, password_confirmation: e.target.value})} className="w-full p-4 bg-navy-700/50 rounded-xl border border-cyan-500/20 focus:border-cyan-500 outline-none text-white" required />}
+                    {!isLogin && (
+                        <input 
+                            type="text" 
+                            placeholder="Full Name" 
+                            value={formData.name} 
+                            onChange={e => setFormData({...formData, name: e.target.value})} 
+                            className="w-full p-4 bg-gray-100 rounded-xl border border-gray-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 outline-none text-gray-800" 
+                            required 
+                        />
+                    )}
+                    <input 
+                        type="email" 
+                        placeholder="Email Address" 
+                        value={formData.email} 
+                        onChange={e => setFormData({...formData, email: e.target.value})} 
+                        className="w-full p-4 bg-gray-100 rounded-xl border border-gray-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 outline-none text-gray-800" 
+                        required 
+                    />
+                    <input 
+                        type="password" 
+                        placeholder="Password" 
+                        value={formData.password} 
+                        onChange={e => setFormData({...formData, password: e.target.value})} 
+                        className="w-full p-4 bg-gray-100 rounded-xl border border-gray-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 outline-none text-gray-800" 
+                        required 
+                    />
+                    {!isLogin && (
+                        <input 
+                            type="password" 
+                            placeholder="Confirm Password" 
+                            value={formData.password_confirmation} 
+                            onChange={e => setFormData({...formData, password_confirmation: e.target.value})} 
+                            className="w-full p-4 bg-gray-100 rounded-xl border border-gray-300 focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500 outline-none text-gray-800" 
+                            required 
+                        />
+                    )}
                     
-                    <button type="submit" disabled={loading} className="w-full btn-primary disabled:opacity-50">{loading ? 'Please wait...' : (isLogin ? 'Login →' : 'Register →')}</button>
+                    <button 
+                        type="submit" 
+                        disabled={loading} 
+                        className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-4 px-4 rounded-xl transition duration-300 disabled:opacity-50"
+                    >
+                        {loading ? 'Please wait...' : (isLogin ? 'Login →' : 'Register →')}
+                    </button>
                     
-                    {/* Forgot Password Link - SIRF LOGIN MODE MEIN DIKHEGA */}
                     {isLogin && (
                         <div className="text-center mt-2">
                             <Link to="/forgot-password" className="text-cyan-500 hover:underline text-sm">
@@ -63,7 +117,14 @@ const Login = () => {
                 </form>
 
                 <div className="text-center mt-6">
-                    <button onClick={() => { setIsLogin(!isLogin); setError(''); }} className="text-cyan-500 hover:underline">
+                    <button 
+                        onClick={() => { 
+                            setIsLogin(!isLogin); 
+                            setError(''); 
+                            setFormData({ name: '', email: '', password: '', password_confirmation: '' });
+                        }} 
+                        className="text-cyan-500 hover:underline"
+                    >
                         {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
                     </button>
                 </div>
